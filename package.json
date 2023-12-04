@@ -1,0 +1,20 @@
+{
+  "name": "basic-preset-minting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "grant-role": "ts-node scripts/grantRole.ts",
+    "mint": "ts-node scripts/mintAssets.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@imtbl/contracts": "^2.0.0",
+    "@imtbl/sdk": "^0.34.0",
+    "ethers": "^5.7.2",
+    "dotenv": "^16.3.1",
+    "ts-node": "^10.9.1"
+  }
+}
