@@ -41,9 +41,17 @@ const mint = async (provider: Provider): Promise<TransactionResponse> => {
     },
   ];
 
+  // The network has introduced a minimum gas price of 100 Gwei to protect it against SPAM traffic, ensure it can process transactions efficiently and remain cost-effective. 
+  // Transactions with a tip cap below 100 Gwei are rejected by the RPC. This limit ensures a standard for transaction costs. This also implies that the fee cap must be greater than or equal to 100 Gwei.
+  const gasOverrides = {
+    maxPriorityFeePerGas: 100e9, // 100 Gwei
+    maxFeePerGas: 150e9,
+    gasLimit: 200000, // Set an appropriate gas limit for your transaction
+  };
+  
   // Rather than be executed directly, contract write functions on the SDK client are returned
   // as populated transactions so that users can implement their own transaction signing logic.
-  const populatedTransaction = await contract.populateMintBatch(requests);
+  const populatedTransaction = await contract.populateMintBatch(requests, gasOverrides);
   const result = await wallet.sendTransaction(populatedTransaction);
   console.log(result); // To get the TransactionResponse value
   return result;
