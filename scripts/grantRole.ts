@@ -23,6 +23,9 @@ const grantMinterRole = async (
 }
   );
   const result = await wallet.sendTransaction(populatedTransaction);
+  console.log('Transaction Response:', result); // To get the TransactionResponse value
+  const receipt = await result.wait();
+  console.log('Transaction Receipt:', receipt); // To get the transaction receipt
   return result;
 };
 

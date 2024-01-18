@@ -38,6 +38,9 @@ const mint = async (provider: Provider): Promise<TransactionResponse> => {
   const populatedTransaction = await contract.populateMintBatch(requests, gasOverrides);
   const result = await wallet.sendTransaction(populatedTransaction);
   console.log(result); // To get the TransactionResponse value
+  console.log('Transaction Response:', result);
+  const receipt = await result.wait();
+  console.log('Transaction Receipt:', receipt); // To get the transaction receipt
   return result;
 };
 
