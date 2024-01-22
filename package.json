@@ -11,8 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@imtbl/contracts": "^2.0.2",
-    "@imtbl/sdk": "^0.35.3",
+    "@imtbl/contracts": "^2.2.2",
+    "@imtbl/sdk": "^0.44.1",
     "ethers": "^5.7.2",
     "dotenv": "^16.3.1",
     "ts-node": "^10.9.1"
