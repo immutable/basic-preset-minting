@@ -3,9 +3,11 @@ import { Provider, TransactionResponse } from '@ethersproject/providers'; // eth
 import { ERC721Client } from '@imtbl/contracts';
 import 'dotenv/config';
 
+import { ImmutableRpcUrl } from '../lib/constants';
+
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const PRIVATE_KEY = process.env.MINTER_PRIVATE_KEY;
-const provider = getDefaultProvider('https://rpc.testnet.immutable.com');
+const provider = getDefaultProvider(ImmutableRpcUrl.Testnet);
 
 const mint = async (provider: Provider): Promise<TransactionResponse> => {
   // Bound contract instance
@@ -25,17 +27,20 @@ const mint = async (provider: Provider): Promise<TransactionResponse> => {
     },
   ];
 
-  // The network has introduced a minimum gas price of 100 Gwei to protect it against SPAM traffic, ensure it can process transactions efficiently and remain cost-effective. 
+  // The network has introduced a minimum gas price of 100 Gwei to protect it against SPAM traffic, ensure it can process transactions efficiently and remain cost-effective.
   // Transactions with a tip cap below 100 Gwei are rejected by the RPC. This limit ensures a standard for transaction costs. This also implies that the fee cap must be greater than or equal to 100 Gwei.
   const gasOverrides = {
     maxPriorityFeePerGas: 10e9, // 100 Gwei
     maxFeePerGas: 15e9,
     gasLimit: 200000, // Set an appropriate gas limit for your transaction
   };
-  
+
   // Rather than be executed directly, contract write functions on the SDK client are returned
   // as populated transactions so that users can implement their own transaction signing logic.
-  const populatedTransaction = await contract.populateMintBatch(requests, gasOverrides);
+  const populatedTransaction = await contract.populateMintBatch(
+    requests,
+    gasOverrides,
+  );
   const result = await wallet.sendTransaction(populatedTransaction);
   console.log(result); // To get the TransactionResponse value
   console.log('Transaction Response:', result);

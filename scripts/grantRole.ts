@@ -3,12 +3,14 @@ import { Provider, TransactionResponse } from '@ethersproject/providers'; // eth
 import { ERC721Client } from '@imtbl/contracts';
 import 'dotenv/config';
 
+import { ImmutableRpcUrl } from '../lib/constants';
+
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const PRIVATE_KEY = process.env.OWNER_PRIVATE_KEY;
-const provider = getDefaultProvider('https://rpc.testnet.immutable.com');
+const provider = getDefaultProvider(ImmutableRpcUrl.Testnet);
 
 const grantMinterRole = async (
-  provider: Provider
+  provider: Provider,
 ): Promise<TransactionResponse> => {
   // Bound contract instance
   const contract = new ERC721Client(CONTRACT_ADDRESS!);
@@ -17,10 +19,11 @@ const grantMinterRole = async (
 
   // Give the wallet minter role access
   const populatedTransaction = await contract.populateGrantMinterRole(
-    wallet.address, {
-  maxPriorityFeePerGas: 100e9,
-  maxFeePerGas: 150e9
-}
+    wallet.address,
+    {
+      maxPriorityFeePerGas: 100e9,
+      maxFeePerGas: 150e9,
+    },
   );
   const result = await wallet.sendTransaction(populatedTransaction);
   console.log('Transaction Response:', result); // To get the TransactionResponse value

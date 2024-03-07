@@ -3,12 +3,14 @@ import { Provider, TransactionResponse } from '@ethersproject/providers'; // eth
 import { ERC721Client } from '@imtbl/contracts';
 import 'dotenv/config';
 
+import { ImmutableRpcUrl, MintingContract } from '../lib/constants';
+
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const PRIVATE_KEY = process.env.OWNER_PRIVATE_KEY;
-const provider = getDefaultProvider('https://rpc.testnet.immutable.com');
+const provider = getDefaultProvider(ImmutableRpcUrl.Testnet);
 
-// The address of our minting contract that requires the minter role (testnet)
-const MINTER_ADDRESS = '0x9CcFbBaF5509B1a03826447EaFf9a0d1051Ad0CF';
+// The address of our minting contract that requires the minter role
+const MINTER_ADDRESS = MintingContract.Testnet;
 
 const grantRoleMintingApi = async (
   provider: Provider,
