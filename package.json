@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "grant-role": "ts-node scripts/grantRole.ts",
+    "grant-role-minting-api": "ts-node scripts/grantRoleMintingApi.ts",
     "mint": "ts-node scripts/mintAssets.ts"
   },
   "keywords": [],

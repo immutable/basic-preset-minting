@@ -3,23 +3,27 @@ import { Provider, TransactionResponse } from '@ethersproject/providers'; // eth
 import { ERC721Client } from '@imtbl/contracts';
 import 'dotenv/config';
 
-import { ImmutableRpcUrl } from '../lib/constants';
+import { ImmutableRpcUrl, MintingContract } from '../lib/constants';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const PRIVATE_KEY = process.env.OWNER_PRIVATE_KEY;
 const provider = getDefaultProvider(ImmutableRpcUrl.Testnet);
 
-const grantMinterRole = async (
+// The address of our minting contract that requires the minter role
+const MINTER_ADDRESS = MintingContract.Testnet;
+
+const grantRoleMintingApi = async (
   provider: Provider,
 ): Promise<TransactionResponse> => {
   // Bound contract instance
   const contract = new ERC721Client(CONTRACT_ADDRESS!);
-  // The wallet of the intended signer of the mint request
+
+  // Your admin wallet that can grant the minter role
   const wallet = new Wallet(PRIVATE_KEY!, provider);
 
-  // Give the wallet minter role access
+  // Give the minting contract minter role access
   const populatedTransaction = await contract.populateGrantMinterRole(
-    wallet.address,
+    MINTER_ADDRESS,
     {
       maxPriorityFeePerGas: 100e9,
       maxFeePerGas: 150e9,
@@ -32,4 +36,4 @@ const grantMinterRole = async (
   return result;
 };
 
-grantMinterRole(provider);
+grantRoleMintingApi(provider);
